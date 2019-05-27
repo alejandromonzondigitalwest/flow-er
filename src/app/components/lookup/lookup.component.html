@@ -1,0 +1,39 @@
+
+<mat-card class="card" >
+  <mat-card-title>Examinar Lookup</mat-card-title>
+
+  <form id='myForm'>
+    <input  (change)="onSelectFile($event)" type="file" name="parser" placeholder="New parser document:" class="form-control-file" id="File1" accept=".json" >
+    <button  type="button" class="btn btn-sm btn-secondary" (click)="uploadDocument(file);" >GO!</button>
+    <input type="Reset" value=" X " (click)="clean();" >
+  </form>
+
+</mat-card>
+
+<br>
+<!--Se aplica el filtro -->
+<mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" maxlength="20" placeholder="Filter">
+</mat-form-field>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <ng-container matColumnDef="Parser">
+      <th mat-header-cell *matHeaderCellDef>Lookup</th>
+      <td mat-cell *matCellDef="let element"> {{element.parser}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Version">
+      <th mat-header-cell *matHeaderCellDef>Version</th>
+      <td mat-cell *matCellDef="let element"> {{element.version}} </td>
+    </ng-container>
+
+
+
+  </table>
+
+
+

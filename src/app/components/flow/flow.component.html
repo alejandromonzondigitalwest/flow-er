@@ -1,0 +1,141 @@
+
+<!--STEP 1-->
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Flow </ng-template>
+        <mat-form-field>
+         <mat-label>"Flow Name"</mat-label>
+          <input matNativeControl formControlName="firstCtrl" required>
+        </mat-form-field>
+      <div>
+         <button mat-raised-button matStepperNext color="primary" (click)="getFlowName()" >Next</button>
+      </div>
+    </form>
+  </mat-step>
+  
+
+  <!--STEP 2
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Input</ng-template>
+        <mat-form-field>
+      <mat-label>Input Type:</mat-label>
+           <mat-select matNativeControl formControlName="secondCtrl" required [(value)] = "kafkaSelected">
+              <mat-option [value] = "kafka">kafka</mat-option>
+              <mat-option  value = ""> </mat-option>
+            </mat-select>
+            </mat-form-field>
+           <div>
+      <button mat-raised-button matStepperPrevious color="primary">Back</button>
+      <button mat-raised-button matStepperNext color="primary">Next</button>
+    </div>
+    </form>
+  </mat-step>-->
+  <mat-step [stepControl]="secondFormGroup">
+  <form [formGroup]="secondFormGroup">
+  <ng-template matStepLabel>Input</ng-template>
+  <mat-form-field>
+      <mat-label>Select an option</mat-label>
+      <mat-select formControlName="secondCtrl" [(value)]="kafkaSelected">
+        <mat-option value=""> </mat-option>
+        <mat-option value="kafka">kafka</mat-option>
+        
+      </mat-select>
+    </mat-form-field>
+    <div>
+        <button mat-raised-button matStepperPrevious color="primary">Back</button>
+        <button mat-raised-button matStepperNext color="primary">Next</button>
+      </div></form>
+    </mat-step>
+
+<!--STEP 3-->
+  <mat-step [stepControl]="thirdFormGroup">
+    <form [formGroup]="thirdFormGroup">
+      <mat-form-field>
+        <ng-template matStepLabel>Parser</ng-template>
+          <mat-label>"Parser Document"</mat-label>
+           <mat-select matNativeControl formControlName="thirdCtrl" required  [(value)] = "parserSelected">
+            <mat-option *ngFor = "let parser of parserList" [value] = "parser">
+              {{parser.parser}}-{{parser.version}}
+            </mat-option>
+          </mat-select>
+      </mat-form-field>
+          <div>
+           <button mat-raised-button matStepperPrevious color="primary">Back</button>
+           <button mat-raised-button matStepperNext color="primary">Next</button>
+          </div>
+    </form>
+  </mat-step>
+<!--STEP 4-->
+  <mat-step [stepControl]="fourthFormGroup">
+    <form [formGroup]="fourthFormGroup">
+      <ng-template matStepLabel>Business Logic</ng-template>
+        <mat-card-content>
+          
+          <mat-label>Business Logic:</mat-label><br>
+          <input  formControlName="fourthCtrl" required (change)="onSelectFile($event)" type="file" name="parser" placeholder="New parser document:" class="form-control-file" id="File1" >
+         <!-- <button  type="button" class="btn btn-sm btn-secondary" (click)="uploadDocument(file);" >GO!</button>-->
+        </mat-card-content>
+        <div><br>
+          <button mat-raised-button matStepperPrevious color="primary">Back</button>
+          <button mat-raised-button matStepperNext color="primary">Next</button>
+        </div>
+    </form>
+  </mat-step>
+<!--STEP 5-->
+  <mat-step [stepControl]="fifthFormGroup">
+    <form [formGroup]="fifthFormGroup">
+      <mat-form-field>
+       <ng-template matStepLabel>Mapper</ng-template>
+        <mat-label>"Mapper Document"</mat-label>
+          <mat-select matNativeControl formControlName="fifthCtrl" required [(value)]="mapperSelected">
+            <mat-option *ngFor = "let mapper of mapperList" [value] = "mapper">
+              {{mapper.mapper}} {{mapper.version}}
+            </mat-option>
+            <mat-option  value = "">
+              
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+         <button mat-raised-button matStepperPrevious color="primary">Back</button>
+         <button mat-raised-button matStepperNext color="primary">Next</button>
+        </div>
+     </form>
+  </mat-step>
+<!--STEP 6-->
+  <mat-step [stepControl]="sixthFormGroup">
+    <form [formGroup]="sixthFormGroup">
+      <ng-template matStepLabel>Output</ng-template>
+        <mat-form-field>
+         <mat-label>"Output option"</mat-label>
+          <input matNativeControl formControlName="sixthCtrl" required>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button matStepperPrevious color="primary">Back</button>
+          <button mat-raised-button matStepperNext color="primary">Next</button>
+        </div>
+    </form>
+  </mat-step>
+<!--STEP 7-->
+  <mat-step>
+    <ng-template matStepLabel>Save & deploy</ng-template>
+    <mat-list role="list">
+      <mat-list-item role="listitem">1. Flow Name: {{flowNameSelected}}</mat-list-item><hr>
+      <mat-list-item role="listitem">2. Input type: {{kafkaSelected}}</mat-list-item><hr>
+      <mat-list-item role="listitem">3. Parser: {{parserSelected.parser}} {{parserSelected.version}}</mat-list-item><hr>
+      <mat-list-item role="listitem">4. Business Logic: </mat-list-item><hr>
+      <mat-list-item role="listitem">5. Mapper: {{mapperSelected.mapper}} {{mapperSelected.version}}</mat-list-item><hr>
+      <mat-list-item role="listitem">6. Output Option: </mat-list-item><hr>
+      
+    </mat-list>
+    
+    You are now done.
+     <div>
+      <!--<button mat-raised-button matStepper color="primary" (click)="uploadDocument(file)">Save & deploy</button>-->
+      <button mat-raised-button matStepperPrevious color="primary">Back</button>
+      <button mat-raised-button (click)="stepper.reset()" color="primary">Reset</button>
+     </div>
+  </mat-step>
+</mat-horizontal-stepper>
